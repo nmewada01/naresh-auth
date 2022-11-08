@@ -7,14 +7,15 @@ const app = express();
 require("dotenv").config();
 const port = process.env.PORT;
 app.use(express.json())
-
+const cors = require("cors")
+app.use(cors())
 app.use("/user", evalsRoute);
 app.use("/auth", authRoute)
 
 app.listen(port, async () => {
     try {
         await connection,
-        console.log("database connected")
+            console.log("database connected")
     }
     catch (err) {
         console.log("error in database connecting")
