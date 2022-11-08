@@ -13,10 +13,10 @@ const singUp = async (req, res) => {
     const { email, password, name, username, mobile, description } = req.body;
     bcrypt.hash(password, 7, async function (err, hash) {
         if (err) {
-            res.send("something went wrong. please sign up again")
+            res.send({ "msg": "something went wrong. please sign up again" })
         }
         if (!email || !password) {
-            res.send("please filled the required fields")
+            res.send({ "msg": "please filled the required fields" })
         }
         const user_data = new AuthModal({
             email: email,
@@ -27,7 +27,7 @@ const singUp = async (req, res) => {
             description: description
         })
         await user_data.save()
-        res.send("signup successfully")
+        res.send({ "msg": "signup successfully" })
     });
 }
 const getLogin = async (req, res) => {
@@ -39,7 +39,7 @@ const getLogin = async (req, res) => {
             var token = jwt.sign({ email: email }, process.env.SECRET_KEY);
             res.send({ "message": "login successfully", "token": token })
         } else {
-            res.send("Login failed")
+            res.send({ "msg": "Login failed" })
         }
 
     });
