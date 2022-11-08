@@ -3,9 +3,14 @@ var jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 require("dotenv").config()
 
+const getProfile = async (req, res) => {
+    const id = req.params.id
+    const data = await AuthModal.findOne({ email: id })
+    res.send(data)
 
+}
 const singUp = async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password, name, username, mobile, description } = req.body;
     bcrypt.hash(password, 7, async function (err, hash) {
         if (err) {
             res.send("something went wrong. please sign up again")
@@ -15,12 +20,15 @@ const singUp = async (req, res) => {
         }
         const user_data = new AuthModal({
             email: email,
-            password: hash
+            password: hash,
+            name: name,
+            username: username,
+            mobile: mobile,
+            description: description
         })
         await user_data.save()
         res.send("signup successfully")
     });
-
 }
 const getLogin = async (req, res) => {
     const { email, password } = req.body;
@@ -35,12 +43,11 @@ const getLogin = async (req, res) => {
         }
 
     });
-
-
 }
 const authOperation = {
     singUp,
     getLogin,
+    getProfile
 }
 module.exports = {
     authOperation

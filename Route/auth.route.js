@@ -5,6 +5,7 @@ const authRoute = Router();
 
 authRoute.post("/signup", authOperation.singUp)
 authRoute.post("/login", authOperation.getLogin)
+authRoute.get("/:id", authOperation.getProfile)
 module.exports = {
     authRoute
 }
