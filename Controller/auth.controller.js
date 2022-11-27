@@ -7,7 +7,6 @@ const getProfile = async (req, res) => {
     const id = req.params.id
     const data = await AuthModal.findOne({ email: id })
     res.send(data)
-
 }
 const singUp = async (req, res) => {
     const { email, password, name, username, mobile, description } = req.body;
