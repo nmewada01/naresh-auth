@@ -5,7 +5,7 @@ const { evalsRoute } = require("./Route/evals.route");
 
 const app = express();
 require("dotenv").config();
-const port = process.env.PORT;
+const port = process.env.PORT || 7070;
 app.use(express.json())
 const cors = require("cors")
 app.use(cors())
