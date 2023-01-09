@@ -7,7 +7,7 @@ const authSchema = new mongoose.Schema({
     username: { type: String, required: true },
     mobile: { type: Number, required: true },
     description: { type: String },
-    role: { type: String, enum: ["Admin", "User"], default: "Admin" }
+    role: { type: String, enum: ["Admin", "User"], default: "User" }
 })
 const AuthModal = mongoose.model("usersign", authSchema);
 
