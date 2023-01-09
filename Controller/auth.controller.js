@@ -36,7 +36,7 @@ const getLogin = async (req, res) => {
     bcrypt.compare(password, hash, function (err, result) {
         if (result) {
             var token = jwt.sign({ email: email }, process.env.SECRET_KEY);
-            res.send({ "message": "login successfully", "token": token })
+            res.send({ "msg": "login successfully", "token": token })
         } else {
             res.send({ "msg": "Login failed" })
         }
