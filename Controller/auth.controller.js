@@ -10,24 +10,32 @@ const getProfile = async (req, res) => {
 }
 const singUp = async (req, res) => {
     const { email, password, name, username, mobile, description } = req.body;
-    bcrypt.hash(password, 7, async function (err, hash) {
-        if (err) {
-            res.send({ "msg": "something went wrong. please sign up again" })
-        }
-        if (!email || !password) {
-            res.send({ "msg": "please filled the required fields" })
-        }
-        const user_data = new AuthModal({
-            email: email,
-            password: hash,
-            name: name,
-            username: username,
-            mobile: mobile,
-            description: description
-        })
-        await user_data.save()
-        res.send({ "msg": "signup successfully" })
-    });
+    const isUser = await AuthModal.findOne({ email })
+    if (isUser) {
+        res.send({ "msg": "user already exist, Please try logging in" })
+    } else {
+        bcrypt.hash(password, 7, async function (err, hash) {
+            if (err) {
+                res.send({ "msg": "something went wrong. please sign up again" })
+            } else {
+                const user_data = new AuthModal({
+                    email: email,
+                    password: hash,
+                    name: name,
+                    username: username,
+                    mobile: mobile,
+                    description: description
+                })
+                try {
+                    await user_data.save()
+                    res.send({ "msg": "signup successfully" })
+                }
+                catch (err) {
+                    res.send({ "msg": "Something went wrong please try again later" })
+                }
+            }
+        });
+    }
 }
 const getLogin = async (req, res) => {
     const { email, password } = req.body;
@@ -51,3 +59,8 @@ const authOperation = {
 module.exports = {
     authOperation
 }
+
+
+// if (!email || !password) {
+//     res.send({ "msg": "please filled the required fields" })
+// }
